@@ -1,0 +1,25 @@
+id: sensitive-files-1
+
+info:
+  name: Exposed
+  author: SrPatoMan
+  severity: Medium
+  description: >
+      Multifuzzing to subdomains to discover sensitive files.
+  tags: exposed, file-disclosure, sensitive-files
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}{{path}}" # path is the wordlist that you provide to fuzz the endpoints. #
+    headers:
+      User-Agent: Hackerone-Test-SrPatoMan
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 401
+          - 403
+    actions:
+      - shell:
+        - cmd: python3 **path** # Change this for your path
